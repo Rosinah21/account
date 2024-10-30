@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
  */
 public class LogIn {
      // Attributes for user details
-    private String storedFirstName;
-    private String storedLastName;
-    private String storedUsername;
-    private String storedPassword;
+    private String FirstName;
+    private String LastName;
+    private String Username;
+    private String Password;
 
-    // Method to check if the username is valid (contains underscore and is <= 10 characters)
+    // Method to check if the username is valid (contains underscore and is <= 5 characters)
     public boolean checkUserName(String username) {
         if (username.length() <= 5 && username.contains("_")) {
             return true;
@@ -45,18 +45,21 @@ public class LogIn {
         }
 
         // Store the user details after successful registration
-        this.storedFirstName = firstName;
-        this.storedLastName = lastName;
-        this.storedUsername = username;
-        this.storedPassword = password;
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.Username = username;
+        this.Password = password;
 
         // If both conditions are met
+        
+        System.out.println("password and username successfully captured."); 
         return "User registered successfully.";
+        
     }
 
-    // Method to login the user (in a real-world application, this would check credentials from a database)
+    // Method to login the user 
     public boolean loginUser(String username, String password) {
-        if (username.equals(storedUsername) && password.equals(storedPassword)) {
+        if (username.equals(Username) && password.equals(Password)) {
             return true;
         }
         return false;
@@ -65,7 +68,7 @@ public class LogIn {
     // Method to return login status
     public String returnLoginStatus(boolean loginSuccessful) {
         if (loginSuccessful) {
-            return "Login successful. Welcome " + storedFirstName + " " + storedLastName + " it is great to see you again";
+            return "Login successful. Welcome " + FirstName + " " + LastName + " it is great to see you again";
         } else {
             return "Login failed.";
         }
