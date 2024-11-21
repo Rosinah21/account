@@ -15,9 +15,12 @@ public class Account {
      // Array to hold tasks
    private static Task[] tasks; 
     private static int taskCount = 0; 
-    private static double totalHours = 0;  // Variable to accumulate total hours
+    // Variable to accumulate total hours
+    
+    private static double totalHours = 0;  
 
     public static void main(String[] args) {
+        
         
         Scanner scanner = new Scanner(System.in);
         LogIn loginSystem = new LogIn();
@@ -59,25 +62,45 @@ public class Account {
             
             
         }
-        JOptionPane.showMessageDialog(null, "WELCOME TO EasyKanBan");
-        int totalTasks = Integer.parseInt(JOptionPane.showInputDialog("Enter the total number of tasks:"));
-        tasks = new Task[totalTasks];  // Initialize array with specified size
+        // Initialize array with specified size
 
+        JOptionPane.showMessageDialog(null, "WELCOME TO EasyKanban");
+        int totalTasks = Integer.parseInt(JOptionPane.showInputDialog("Enter the total number of tasks:"));
+        tasks = new Task[totalTasks];  
+        
+        // Menu for task management
         boolean running = true;
         while (running) {
-            String menu = "Select an option:\n1. Add tasks\n2. Show report\n3. Quit";
+            String menu = "Select an option:\n1. Add Task\n2. Display Tasks with Status 'Done'\n"
+                    + "3. Display Task with Longest Duration\n4. Search Task by Name\n"
+                    + "5. Search Tasks by Developer\n6. Delete a Task\n7. Display All Tasks\n8. Quit";
             int choice = Integer.parseInt(JOptionPane.showInputDialog(menu));
 
             switch (choice) {
                 case 1:
-                    addTasks(totalTasks);
+                    addTask();
                     break;
                 case 2:
-                    showReport();
+                    TaskManager.displayTasksWithStatusDone();
                     break;
                 case 3:
+                    TaskManager.displayLongestTask();
+                    break;
+                case 4:
+                    searchTaskByName();
+                    break;
+                case 5:
+                    searchTasksByDeveloper();
+                    break;
+                case 6:
+                    deleteTask();
+                    break;
+                case 7:
+                    TaskManager.displayAllTasks();
+                    break;
+                case 8:
                     running = false;
-                    JOptionPane.showMessageDialog(null, "Exiting application.");
+                    JOptionPane.showMessageDialog(null, "Exiting application....");
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Invalid option. Please try again.");
@@ -85,52 +108,54 @@ public class Account {
         }
     }
 
-    private static void addTasks(int totalTasks) {
-        if (taskCount >= totalTasks) {
-            JOptionPane.showMessageDialog(null, "Cannot add more tasks. Maximum number of tasks reached.");
-            return;
-        }
-
+    private static void addTask() {
+        String developer = JOptionPane.showInputDialog("Enter developer's full name:");
         String taskName = JOptionPane.showInputDialog("Enter task name:");
+        int taskDuration = Integer.parseInt(JOptionPane.showInputDialog("Enter task duration in hours:"));
 
-        String taskDescription = JOptionPane.showInputDialog("Enter task description (max 50 characters):");
-        if (taskDescription.length() > 50) {
-            JOptionPane.showMessageDialog(null, "Description too long. Task not added.");
-            return;
-        }
-
-        String developerFirstName = JOptionPane.showInputDialog("Enter developer's first name:");
-        String developerLastName = JOptionPane.showInputDialog("Enter developer's last name:");
-        
-        double taskDuration = Double.parseDouble(JOptionPane.showInputDialog("Enter task duration in hours:"));
-           String[] statuses = {"To Do", "Doing", "Done"};
+        String[] statuses = {"To Do", "Doing", "Done"};
         String taskStatus = (String) JOptionPane.showInputDialog(null, "Select task status:", "Status",
                 JOptionPane.QUESTION_MESSAGE, null, statuses, statuses[0]);
 
-       
-        Task task = new Task(taskName, taskDescription, developerFirstName, developerLastName, taskDuration, taskStatus);
-
-        if (task.checkTaskDescription()) {
-            tasks[taskCount] = task;  // Add task to array
-            totalHours += task.returnTaskDuration();  // Accumulate task duration
-            taskCount++;
-            JOptionPane.showMessageDialog(null, task.printTaskDetails(), "Task Details", JOptionPane.INFORMATION_MESSAGE);
-            JOptionPane.showMessageDialog(null, "Task successfully added.");
-        } else {
-            JOptionPane.showMessageDialog(null, "Task description exceeds 50 characters. Task not added.");
-        }
-
-        // If all tasks have been entered, show total hours
-        if (taskCount == totalTasks) {
-            JOptionPane.showMessageDialog(null, "All tasks have been entered.\nTotal hours across all tasks: " + totalHours, "Total Hours", JOptionPane.INFORMATION_MESSAGE);
-        }
+        TaskManager.addTask(developer, taskName, taskDuration, taskStatus);
+        JOptionPane.showMessageDialog(null, "Task added successfully.");
     }
 
-    private static void showReport() {
-        JOptionPane.showMessageDialog(null, "Coming Soon", "Report", JOptionPane.INFORMATION_MESSAGE);
+    private static void searchTaskByName() {
+        String taskName = JOptionPane.showInputDialog("Enter task name to search:");
+        TaskManager.searchTaskByName(taskName);
     }
+
+    private static void searchTasksByDeveloper() {
+        String developer = JOptionPane.showInputDialog("Enter developer's full name to search:");
+        TaskManager.searchTasksByDeveloper(developer);
+    }
+
+    private static void deleteTask() {
+        String taskName = JOptionPane.showInputDialog("Enter task name to delete:");
+        TaskManager.deleteTask(taskName);
     
+
+        
+      
+
+  
+
+       
+    }
 }
+
+    
+
+  
+
+
+
+    
+
+ 
+    
+
        
     
 

@@ -32,6 +32,7 @@ public class Task {
     }
 
     // Method to check if the task description is valid
+    
     public boolean checkTaskDescription() {
         return taskDescription.length() <= 50;
     }
@@ -58,6 +59,7 @@ public class Task {
     public double returnTaskDuration() {
         return taskDuration;
 }
+
 }
 
      
